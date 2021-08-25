@@ -109,7 +109,7 @@ var gauss = A => {
   return x;
 }
 
-var solve = (memberList, forceList, reaction1, reaction2, reaction3) => {
+var solve = (memberList, forceList, reactionList) => {
 	var jointRelation = {}, nMembers = memberList.length;
 
   // load in member list
@@ -131,7 +131,7 @@ var solve = (memberList, forceList, reaction1, reaction2, reaction3) => {
 
     memberNames.push(`${member.src}-${member.dst}`);
 	}
-  memberNames = memberNames.concat([reaction1, reaction2, reaction3].map(v => v.name)).sort();
+  memberNames = memberNames.concat(reactionList.map(v => v.name)).sort();
 
   if (memberNames.length !== Object.keys(jointRelation).length * 2) {
     throw new Error("wrong number of joints/members/reactions");
@@ -161,7 +161,7 @@ var solve = (memberList, forceList, reaction1, reaction2, reaction3) => {
   }
 
   // add reaction forces
-  for (var reaction of [reaction1, reaction2, reaction3]) {
+  for (var reaction of reactionList) {
     equations[reaction.jointName].x.entries[reaction.name] = reaction.direction.x;
     equations[reaction.jointName].y.entries[reaction.name] = reaction.direction.y;
   }
